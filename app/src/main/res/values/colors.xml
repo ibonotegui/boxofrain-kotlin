@@ -3,4 +3,9 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="scorned_mango">#FFA62B</color>
+    <color name="observant_dark">#1B2431</color>
+    <color name="shut_in_sky">#75B3E7</color>
+
 </resources>

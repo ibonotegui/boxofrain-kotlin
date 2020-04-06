@@ -2,6 +2,7 @@ package io.github.ibonotegui.boxofrain.network
 
 import io.github.ibonotegui.boxofrain.BuildConfig
 import io.github.ibonotegui.boxofrain.model.Forecast
+import kotlinx.coroutines.Deferred
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -25,6 +26,12 @@ interface BoxApiService {
         @Path(value = "latitude") latitude: String,
         @Path(value = "longitude") longitude: String
     ): Call<Forecast>
+
+    @GET("/forecast/${BuildConfig.DARK_SKY_KEY}/{latitude},{longitude}")//?exclude=alerts,flags,minutely
+    suspend fun getSuspendForecast(
+        @Path(value = "latitude") latitude: String,
+        @Path(value = "longitude") longitude: String
+    ): Forecast
 }
 
 object BoxApi {
