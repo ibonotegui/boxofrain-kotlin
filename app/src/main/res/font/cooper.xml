@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <font
+        android:font="@font/cooper_hewitt_medium"
+        android:fontStyle="normal"
+        app:font="@font/cooper_hewitt_medium"
+        app:fontStyle="normal" />
+
+    <font
+        android:font="@font/cooper_hewitt_bold"
+        android:fontStyle="normal"
+        app:font="@font/cooper_hewitt_bold"
+        app:fontStyle="normal" />
+
+    <font
+        android:font="@font/cooper_hewitt_light"
+        android:fontStyle="normal"
+        app:font="@font/cooper_hewitt_light"
+        app:fontStyle="normal" />
+
+    <font
+        android:font="@font/cooper_hewitt_thin"
+        android:fontStyle="normal"
+        app:font="@font/cooper_hewitt_thin"
+        app:fontStyle="normal" />
+
+</font-family>
