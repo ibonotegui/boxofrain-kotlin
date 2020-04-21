@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Box of Rain</string>
     <string name="city">City</string>
+    <string name="city_hint">City, Country</string>
     <string name="search">Search</string>
     <string name="city_not_found">City not found</string>
     <string name="enter_city">Please enter a city name</string>

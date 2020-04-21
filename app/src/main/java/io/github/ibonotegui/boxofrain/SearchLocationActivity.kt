@@ -29,6 +29,7 @@ class SearchLocationActivity : AppCompatActivity() {
                         if (_resource.data != null) {
                             BoxPreferences.setLocation(
                                 applicationContext,
+                                _resource.data.name,
                                 _resource.data.latitude, _resource.data.longitude
                             )
                             val searchIntent = Intent(this, MainActivity::class.java)
