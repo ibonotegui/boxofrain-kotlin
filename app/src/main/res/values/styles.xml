@@ -4,7 +4,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="fontFamily">@font/cooper_hewitt_medium</item>
+        <item name="fontFamily">@font/cooper_hewitt_light</item>
+        <item name="android:textColor">@color/grey</item>
 
         <!--EditText hint color-->
         <item name="android:textColorHint">@color/blue</item>
@@ -15,6 +16,25 @@
         <!-- EditText line color when EditText in un-focus-->
         <item name="colorControlNormal">@color/purple</item>
 
+    </style>
+
+    <style name="BoxTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:lineSpacingExtra">4dp</item>
+    </style>
+
+    <style name="BoxTextView.Medium">
+        <item name="android:textSize">@dimen/text_medium</item>
+    </style>
+
+    <style name="BoxTextView.Small">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
+    <style name="BoxTextView.Large">
+        <item name="android:textSize">@dimen/text_large</item>
     </style>
 
 </resources>

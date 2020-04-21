@@ -6,4 +6,10 @@
     <string name="city_not_found">City not found</string>
     <string name="enter_city">Please enter a city name</string>
     <string name="loading">Loading…</string>
+    <string name="time">Local Time: %s</string>
+    <string name="humidity">Humidity: %.0f%%</string>
+    <string name="rain">Rain: %.0f%%</string>
+    <string name="percentage">%.0f%%</string>
+    <string name="wind_speed">Wind: %1$.2f m/hr %2$s</string>
+    <string name="change_city">change city</string>
 </resources>
