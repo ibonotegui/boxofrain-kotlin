@@ -60,17 +60,14 @@ class MainActivity : AppCompatActivity() {
                     Log.d("aaaa", "suspend status ${_resource.status}")
                     when (_resource.status) {
                         Status.LOADING -> {
-                            timezone_text_view.text = "Suspend Loading..."
-                            //Toast.makeText(applicationContext, "loading...", Toast.LENGTH_SHORT).show()
+                            timezone_text_view.text = getString(R.string.loading)
                         }
                         Status.SUCCESS -> {
                             //update ui
                             timezone_text_view.text = _resource.data?.timezone
-                            //Log.d("aaaa", "offset ${_resource.data?.offset}")
                         }
                         Status.ERROR -> {
                             timezone_text_view.text = _resource.message
-                            //Toast.makeText(applicationContext, _resource.message, Toast.LENGTH_SHORT).show()
                         }
                     }
                 })
