@@ -37,4 +37,8 @@
         <item name="android:textSize">@dimen/text_large</item>
     </style>
 
+    <style name="BoxTextView.XLarge">
+        <item name="android:textSize">@dimen/text_xlarge</item>
+    </style>
+
 </resources>

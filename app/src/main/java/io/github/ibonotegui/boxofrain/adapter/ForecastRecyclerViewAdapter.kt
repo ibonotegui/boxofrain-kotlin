@@ -13,7 +13,8 @@ import kotlinx.android.synthetic.main.daily_list_item_layout.view.*
 
 class ForecastRecyclerViewAdapter(
     private val context: Context,
-    private val dataPoints: List<DataPoint>
+    private val dataPoints: List<DataPoint>,
+    private val timezone: String
 ) :
     RecyclerView.Adapter<ForecastRecyclerViewAdapter.ViewHolder>() {
 
@@ -28,16 +29,21 @@ class ForecastRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.dateTextView.text = BoxFormat.formatDateDayLong(dataPoints[position].time)
-        holder.summaryTextView.text = dataPoints[position].summary
+        val dataPoint = dataPoints[position]
+        holder.dateTextView.text = BoxFormat.formatDateDayLong(dataPoint.time, timezone)
+        holder.summaryTextView.text = dataPoint.summary
         holder.minTemperatureTextView.text =
-            BoxFormat.formatTemperature(dataPoints[position].temperatureMin)
+            BoxFormat.formatTemperature(dataPoint.temperatureMin)
         holder.maxTemperatureTextView.text =
-            BoxFormat.formatTemperature(dataPoints[position].temperatureMax)
-        //holder.windSpeedTextView.text = BoxFormat.getWindBearing(dataPoints[position].windBearing)
+            BoxFormat.formatTemperature(dataPoint.temperatureMax)
+        holder.windSpeedTextView.text = String.format(
+            context.getString(R.string.wind_speed),
+            dataPoint.windSpeed,
+            BoxFormat.getWindBearing(dataPoint.windBearing)
+        )
         holder.dailyPrecipitationProbTextView.text = String.format(
             context.getString(R.string.rain),
-            dataPoints[position].precipProbability * 100
+            dataPoint.precipProbability * 100
         )
     }
 
@@ -46,7 +52,7 @@ class ForecastRecyclerViewAdapter(
         val summaryTextView: TextView = view.daily_summary_text_view
         val minTemperatureTextView: TextView = view.daily_min_temperature_text_view
         val maxTemperatureTextView: TextView = view.daily_max_temperature_text_view
-        //val windSpeedTextView: TextView = view.daily_wind_speed_textview
+        val windSpeedTextView: TextView = view.daily_wind_speed_text_view
         val dailyPrecipitationProbTextView: TextView = view.daily_precipitation_prob_text_view
     }
 

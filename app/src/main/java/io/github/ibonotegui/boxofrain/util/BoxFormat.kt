@@ -10,11 +10,11 @@ object BoxFormat {
         return temperature.roundToInt().toString() + "\u00B0"
     }
 
-    fun formatDateDayLong(timeSeconds: Long) : String {
+    fun formatDateDayLong(timeSeconds: Long, timezone : String) : String {
         val timeInMilliSeconds = timeSeconds * 1000
         val date = Date(timeInMilliSeconds)
         val simpleDateFormat = SimpleDateFormat("E\nd", Locale.getDefault())
-        //simpleDateFormat.timeZone = TimeZone.getTimeZone("GMT")
+        simpleDateFormat.timeZone = TimeZone.getTimeZone(timezone)
         return simpleDateFormat.format(date)
     }
 
@@ -22,7 +22,7 @@ object BoxFormat {
         val offsetInMilliSeconds: Double = offsetHour * 60 * 60 * 1000
         val timeInMilliSeconds = timeSeconds * 1000 + offsetInMilliSeconds.toLong()
         val date = Date(timeInMilliSeconds)
-        val simpleDateFormat = SimpleDateFormat("H:mm", Locale.getDefault())
+        val simpleDateFormat = SimpleDateFormat("E d h:mm a", Locale.getDefault())
         simpleDateFormat.timeZone = TimeZone.getTimeZone("GMT")
         return simpleDateFormat.format(date)
     }

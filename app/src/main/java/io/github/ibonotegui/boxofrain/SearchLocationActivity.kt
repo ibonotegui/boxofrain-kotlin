@@ -2,6 +2,7 @@ package io.github.ibonotegui.boxofrain
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -19,6 +20,12 @@ class SearchLocationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_location)
+
+        if(BoxPreferences.getLocation(applicationContext) != null) {
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            title = getString(R.string.edit_city)
+        }
+
         //progress bar ui
         search_city_button.setOnClickListener {
             if (!text_input_edit_text_city.text.isNullOrEmpty()) {
@@ -32,8 +39,9 @@ class SearchLocationActivity : AppCompatActivity() {
                                 _resource.data.name,
                                 _resource.data.latitude, _resource.data.longitude
                             )
-                            val searchIntent = Intent(this, MainActivity::class.java)
-                            startActivity(searchIntent)
+                            val mainIntent = Intent(this, MainActivity::class.java)
+                            mainIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            startActivity(mainIntent)
                             finish()
                         } else {
                             Toast.makeText(
@@ -52,6 +60,14 @@ class SearchLocationActivity : AppCompatActivity() {
                 ).show()
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

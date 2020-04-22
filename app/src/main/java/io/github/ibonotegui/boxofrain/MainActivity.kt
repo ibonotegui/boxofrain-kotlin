@@ -2,6 +2,8 @@ package io.github.ibonotegui.boxofrain
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -29,9 +31,11 @@ class MainActivity : AppCompatActivity() {
         val location = BoxPreferences.getLocation(applicationContext)
 
         if (location == null) {
+
             val searchIntent = Intent(this, SearchLocationActivity::class.java)
             startActivity(searchIntent)
             finish()
+
         } else {
 
             setContentView(R.layout.activity_main)
@@ -52,11 +56,6 @@ class MainActivity : AppCompatActivity() {
                 getForecast(location)
             }
 
-            change_city_button.setOnClickListener {
-                val searchIntent = Intent(this, SearchLocationActivity::class.java)
-                startActivity(searchIntent)
-                finish()
-            }
         }
     }
 
@@ -87,10 +86,8 @@ class MainActivity : AppCompatActivity() {
                         currently_temperature.text =
                             BoxFormat.formatTemperature(forecast.currently.temperature)
 
-                        currently_time.text = String.format(
-                            getString(R.string.time),
+                        currently_time.text =
                             BoxFormat.formatDateHour(forecast.currently.time, forecast.offset)
-                        )
 
                         currently_precipitation.text = String.format(
                             getString(R.string.rain),
@@ -108,9 +105,12 @@ class MainActivity : AppCompatActivity() {
                             BoxFormat.getWindBearing(forecast.currently.windBearing)
                         )
 
-                        //TODO refresh
                         daily_recycler_view.adapter =
-                            ForecastRecyclerViewAdapter(this, forecast.daily.data)
+                            ForecastRecyclerViewAdapter(
+                                this,
+                                forecast.daily.data,
+                                forecast.timezone
+                            )
 
                     }
                     Status.ERROR -> {
@@ -124,4 +124,18 @@ class MainActivity : AppCompatActivity() {
                 }
             })
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_edit_city) {
+            val searchIntent = Intent(this, SearchLocationActivity::class.java)
+            startActivity(searchIntent)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }

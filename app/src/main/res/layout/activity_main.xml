@@ -8,14 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/change_city_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true" />
-
         <TextView
             android:id="@+id/message_text_view"
             android:layout_width="wrap_content"
@@ -27,7 +19,7 @@
             android:id="@+id/currently_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -59,7 +51,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:textSize="80sp" />
+                    android:textSize="@dimen/text_xlarge" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -74,14 +66,17 @@
 
                     <TextView
                         android:id="@+id/currently_precipitation"
+                        android:layout_marginTop="4dp"
                         style="@style/BoxTextView.Medium" />
 
                     <TextView
                         android:id="@+id/currently_humidity"
+                        android:layout_marginTop="4dp"
                         style="@style/BoxTextView.Medium" />
 
                     <TextView
                         android:id="@+id/currently_wind_speed"
+                        android:layout_marginTop="4dp"
                         style="@style/BoxTextView.Medium" />
                 </LinearLayout>
 
@@ -90,7 +85,10 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_margin="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
                 android:background="@color/purple" />
 
             <androidx.recyclerview.widget.RecyclerView
