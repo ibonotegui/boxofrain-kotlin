@@ -14,6 +14,7 @@ import io.github.ibonotegui.boxofrain.adapter.ForecastRecyclerViewAdapter
 import io.github.ibonotegui.boxofrain.model.Forecast
 import io.github.ibonotegui.boxofrain.model.Location
 import io.github.ibonotegui.boxofrain.network.Status
+import io.github.ibonotegui.boxofrain.util.BoxConstants
 import io.github.ibonotegui.boxofrain.util.BoxFormat
 import io.github.ibonotegui.boxofrain.util.BoxPreferences
 import io.github.ibonotegui.boxofrain.viewmodel.MainViewModel
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
             val searchIntent = Intent(this, SearchLocationActivity::class.java)
             startActivity(searchIntent)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             finish()
 
         } else {
@@ -56,6 +58,17 @@ class MainActivity : AppCompatActivity() {
                 getForecast(location)
             }
 
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if (intent?.extras?.get(BoxConstants.REFRESH_DATA_EXTRA) != null) {
+            val location = BoxPreferences.getLocation(applicationContext)
+            if (location != null) {
+                title = location.name
+                getForecast(location)
+            }
         }
     }
 
@@ -134,6 +147,7 @@ class MainActivity : AppCompatActivity() {
         if (item.itemId == R.id.action_edit_city) {
             val searchIntent = Intent(this, SearchLocationActivity::class.java)
             startActivity(searchIntent)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
         return super.onOptionsItemSelected(item)
     }

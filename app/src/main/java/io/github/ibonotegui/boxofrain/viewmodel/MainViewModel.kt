@@ -9,6 +9,7 @@ import io.github.ibonotegui.boxofrain.model.Forecast
 import io.github.ibonotegui.boxofrain.model.Location
 import io.github.ibonotegui.boxofrain.network.Resource
 import io.github.ibonotegui.boxofrain.repository.BoxRepository
+import io.github.ibonotegui.boxofrain.util.BoxConstants
 import kotlinx.coroutines.Dispatchers
 
 class MainViewModel : ViewModel() {
@@ -36,7 +37,7 @@ class MainViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        Log.i("aaaa", "MainViewModel onCleared!")
+        Log.i(BoxConstants.TAG, "MainViewModel onCleared!")
     }
 
 }

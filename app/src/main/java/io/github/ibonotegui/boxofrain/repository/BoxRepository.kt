@@ -10,10 +10,10 @@ import io.github.ibonotegui.boxofrain.model.Forecast
 import io.github.ibonotegui.boxofrain.model.Location
 import io.github.ibonotegui.boxofrain.network.BoxApi
 import io.github.ibonotegui.boxofrain.network.Resource
+import io.github.ibonotegui.boxofrain.util.BoxConstants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class BoxRepository {
@@ -43,12 +43,12 @@ class BoxRepository {
         BoxApi.retrofitService.getForecast(latitude, longitude)
             .enqueue(object : Callback<Forecast> {
                 override fun onResponse(call: Call<Forecast>, response: Response<Forecast>) {
-                    Log.d("aaaa", "onResponse ${response.body()?.alert?.title}")
+                    Log.d(BoxConstants.TAG, "onResponse ${response.body()?.alert?.title}")
                     liveData.value = Resource.success(response.body())
                 }
 
                 override fun onFailure(call: Call<Forecast>, t: Throwable) {
-                    Log.d("aaaa", "onFailure ${t.message}")
+                    Log.d(BoxConstants.TAG, "onFailure ${t.message}")
                     liveData.value = Resource.error(null, t.message)
                 }
             })

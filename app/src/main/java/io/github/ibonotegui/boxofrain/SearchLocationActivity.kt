@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import io.github.ibonotegui.boxofrain.util.BoxConstants
 import io.github.ibonotegui.boxofrain.util.BoxPreferences
 import io.github.ibonotegui.boxofrain.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_search_location.*
@@ -40,8 +41,10 @@ class SearchLocationActivity : AppCompatActivity() {
                                 _resource.data.latitude, _resource.data.longitude
                             )
                             val mainIntent = Intent(this, MainActivity::class.java)
+                            mainIntent.putExtra(BoxConstants.REFRESH_DATA_EXTRA,true)
                             mainIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                             startActivity(mainIntent)
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                             finish()
                         } else {
                             Toast.makeText(
@@ -64,6 +67,10 @@ class SearchLocationActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
+            val mainIntent = Intent(this, MainActivity::class.java)
+            mainIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(mainIntent)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             finish()
             return true
         }
