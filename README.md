@@ -6,4 +6,4 @@ To run the app you will need a box.properties file with a valid DARK_SKY_KEY="yo
 
 See https://blog.darksky.net/
 
-![screenshot](https://github.com/ibonotegui/boxofrain-kotlin/blob/master/screenshots/screenshot_20200421-212903.png)
+![screenshot](https://github.com/ibonotegui/boxofrain-kotlin/blob/master/screenshots/screenshot_20200422-112614.png)
