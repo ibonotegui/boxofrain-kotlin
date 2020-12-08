@@ -7,16 +7,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import io.github.ibonotegui.boxofrain.R
+import io.github.ibonotegui.boxofrain.databinding.DailyListItemLayoutBinding
 import io.github.ibonotegui.boxofrain.model.DataPoint
 import io.github.ibonotegui.boxofrain.util.BoxFormat
-import kotlinx.android.synthetic.main.daily_list_item_layout.view.*
 
 class ForecastRecyclerViewAdapter(
     private val context: Context,
-    private val dataPoints: List<DataPoint>,
+    private var dataPoints: List<DataPoint>,
     private val timezone: String
-) :
-    RecyclerView.Adapter<ForecastRecyclerViewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ForecastRecyclerViewAdapter.ViewHolder>() {
+
+    private var data = emptyList<DataPoint>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -47,13 +48,19 @@ class ForecastRecyclerViewAdapter(
         )
     }
 
+    internal fun setData(dataPoints: List<DataPoint>) {
+        this.dataPoints = dataPoints
+        notifyDataSetChanged()
+    }
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val dateTextView: TextView = view.daily_date_text_view
-        val summaryTextView: TextView = view.daily_summary_text_view
-        val minTemperatureTextView: TextView = view.daily_min_temperature_text_view
-        val maxTemperatureTextView: TextView = view.daily_max_temperature_text_view
-        val windSpeedTextView: TextView = view.daily_wind_speed_text_view
-        val dailyPrecipitationProbTextView: TextView = view.daily_precipitation_prob_text_view
+        private val binding: DailyListItemLayoutBinding = DailyListItemLayoutBinding.bind(view)
+        val dateTextView: TextView = binding.dailyDateTextView
+        val summaryTextView: TextView = binding.dailySummaryTextView
+        val minTemperatureTextView: TextView = binding.dailyMinTemperatureTextView
+        val maxTemperatureTextView: TextView = binding.dailyMaxTemperatureTextView
+        val windSpeedTextView: TextView = binding.dailyWindSpeedTextView
+        val dailyPrecipitationProbTextView: TextView = binding.dailyPrecipitationProbTextView
     }
 
 }

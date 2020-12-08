@@ -2,15 +2,21 @@ package io.github.ibonotegui.boxofrain
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import io.github.ibonotegui.boxofrain.adapter.ForecastRecyclerViewAdapter
+import io.github.ibonotegui.boxofrain.databinding.ActivityMainBinding
 import io.github.ibonotegui.boxofrain.model.Forecast
 import io.github.ibonotegui.boxofrain.model.Location
 import io.github.ibonotegui.boxofrain.network.Status
@@ -18,9 +24,19 @@ import io.github.ibonotegui.boxofrain.util.BoxConstants
 import io.github.ibonotegui.boxofrain.util.BoxFormat
 import io.github.ibonotegui.boxofrain.util.BoxPreferences
 import io.github.ibonotegui.boxofrain.viewmodel.MainViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var messageTextView: TextView
+    private lateinit var currentlyHumidity: TextView
+    private lateinit var currentlyPrecipitation: TextView
+    private lateinit var currentlySummary: TextView
+    private lateinit var currentlyTemperature: TextView
+    private lateinit var currentlyTime: TextView
+    private lateinit var currentlyWindSpeed: TextView
+    private lateinit var currentlyLayout: LinearLayout
+    private lateinit var dailyRecyclerView: RecyclerView
 
     private val mainViewModel: MainViewModel by lazy {
         ViewModelProvider(this).get(MainViewModel::class.java)
@@ -29,7 +45,29 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //TODO
         val location = BoxPreferences.getLocation(applicationContext)
+
+        mainViewModel.getLocations().observe(this, Observer {
+            Log.d("aaaa", "locations size: ${it.size}")
+        })
+
+        mainViewModel.location.observe(this, Observer { _location ->
+
+            Log.d("aaaa", "location: $_location")
+
+            if (_location == null) {
+
+                val searchIntent = Intent(this, SearchLocationActivity::class.java)
+                startActivity(searchIntent)
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                finish()
+
+            } else {
+
+            }
+
+        })
 
         if (location == null) {
 
@@ -40,21 +78,35 @@ class MainActivity : AppCompatActivity() {
 
         } else {
 
-            setContentView(R.layout.activity_main)
+            val binding = ActivityMainBinding.inflate(layoutInflater)
+            setContentView(binding.root)
+
+            swipeRefreshLayout = binding.swipeRefreshLayout
+
+            messageTextView = binding.messageTextView
+            currentlyHumidity = binding.currentlyHumidity
+            currentlyPrecipitation = binding.currentlyPrecipitation
+            currentlySummary = binding.currentlySummary
+            currentlyTemperature = binding.currentlyTemperature
+            currentlyTime = binding.currentlyTime
+            currentlyWindSpeed = binding.currentlyWindSpeed
+            currentlyLayout = binding.currentlyLayout
+            dailyRecyclerView = binding.dailyRecyclerView
+
             title = location.name
 
-            daily_recycler_view.layoutManager = LinearLayoutManager(this)
-            daily_recycler_view.setHasFixedSize(true)
+            dailyRecyclerView.layoutManager = LinearLayoutManager(this)
+            dailyRecyclerView.setHasFixedSize(true)
 
             getForecast(location)
 
-            swipe_refresh_layout.setColorSchemeColors(
+            swipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(
                     applicationContext,
                     R.color.blue
                 )
             )
-            swipe_refresh_layout.setOnRefreshListener {
+            swipeRefreshLayout.setOnRefreshListener {
                 getForecast(location)
             }
 
@@ -77,48 +129,48 @@ class MainActivity : AppCompatActivity() {
             .observe(this, Observer { _resource ->
                 when (_resource.status) {
                     Status.LOADING -> {
-                        if (!swipe_refresh_layout.isRefreshing) {
-                            message_text_view.visibility = View.VISIBLE
-                            message_text_view.text = getString(R.string.loading)
-                            currently_layout.visibility = View.GONE
+                        if (!swipeRefreshLayout.isRefreshing) {
+                            messageTextView.visibility = View.VISIBLE
+                            messageTextView.text = getString(R.string.loading)
+                            currentlyLayout.visibility = View.GONE
                         }
                     }
                     Status.SUCCESS -> {
 
-                        if (swipe_refresh_layout.isRefreshing) {
-                            swipe_refresh_layout.isRefreshing = false
+                        if (swipeRefreshLayout.isRefreshing) {
+                            swipeRefreshLayout.isRefreshing = false
                         }
 
-                        message_text_view.visibility = View.GONE
-                        currently_layout.visibility = View.VISIBLE
+                        messageTextView.visibility = View.GONE
+                        currentlyLayout.visibility = View.VISIBLE
 
                         val forecast = _resource.data as Forecast
 
-                        currently_summary.text = forecast.currently.summary
+                        currentlySummary.text = forecast.currently.summary
 
-                        currently_temperature.text =
+                        currentlyTemperature.text =
                             BoxFormat.formatTemperature(forecast.currently.temperature)
 
-                        currently_time.text =
+                        currentlyTime.text =
                             BoxFormat.formatDateHour(forecast.currently.time, forecast.offset)
 
-                        currently_precipitation.text = String.format(
+                        currentlyPrecipitation.text = String.format(
                             getString(R.string.rain),
                             forecast.currently.precipProbability * 100
                         )
 
-                        currently_humidity.text = String.format(
+                        currentlyHumidity.text = String.format(
                             getString(R.string.humidity),
                             forecast.currently.humidity * 100
                         )
 
-                        currently_wind_speed.text = String.format(
+                        currentlyWindSpeed.text = String.format(
                             getString(R.string.wind_speed),
                             forecast.currently.windSpeed,
                             BoxFormat.getWindBearing(forecast.currently.windBearing)
                         )
 
-                        daily_recycler_view.adapter =
+                        dailyRecyclerView.adapter =
                             ForecastRecyclerViewAdapter(
                                 this,
                                 forecast.daily.data,
@@ -127,12 +179,12 @@ class MainActivity : AppCompatActivity() {
 
                     }
                     Status.ERROR -> {
-                        if (swipe_refresh_layout.isRefreshing) {
-                            swipe_refresh_layout.isRefreshing = false
+                        if (swipeRefreshLayout.isRefreshing) {
+                            swipeRefreshLayout.isRefreshing = false
                         }
-                        message_text_view.visibility = View.VISIBLE
-                        message_text_view.text = _resource.message
-                        currently_layout.visibility = View.GONE
+                        messageTextView.visibility = View.VISIBLE
+                        messageTextView.text = _resource.message
+                        currentlyLayout.visibility = View.GONE
                     }
                 }
             })

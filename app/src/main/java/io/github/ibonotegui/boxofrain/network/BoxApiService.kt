@@ -2,7 +2,6 @@ package io.github.ibonotegui.boxofrain.network
 
 import io.github.ibonotegui.boxofrain.BuildConfig
 import io.github.ibonotegui.boxofrain.model.Forecast
-import kotlinx.coroutines.Deferred
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory

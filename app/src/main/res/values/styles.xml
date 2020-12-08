@@ -41,4 +41,8 @@
         <item name="android:textSize">@dimen/text_xlarge</item>
     </style>
 
+    <style name="BoxDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/blue_light</item>
+    </style>
+
 </resources>
